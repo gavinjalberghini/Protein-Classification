@@ -87,17 +87,42 @@ def separateDataframe(dataframe, identifier):
     return newFrame
 
 
+def getFrequentSubstrings(scoreFrame):
+    scoreFrame = scoreFrame.sort_values(by='Count', ascending=False)
+    frequentDF = pd.DataFrame(columns=['Substring', 'Count'])
+    for count in range(0, frequentSubstringLength):
+        sub = scoreFrame.iat[count, 1]
+        num = scoreFrame.iat[count, 2]
+        data = pd.DataFrame({'Substring': sub, 'Count': num}, index=[count])
+        frequentDF = frequentDF.append(data)
+    return frequentDF
+
+
+def printFrequentSubstrings(frame):
+    for row in frame.iterrows():
+        sub = row[1]['Substring']
+        num = row[1]['Count']
+        print('Substring ' + sub + ' appeared in class ' + proteinClass + ' ' + str(num) + ' times')
+
+
 trainingData = pd.read_csv('CMSC435TrainingDataset.txt',
                            sep=',', header=None, names=['Sequence', 'Class'])
 
 proteinClass = 'DRNA'
 substringLength = 3
+frequentSubstringLength = 5
 
 classFrame = separateDataframe(trainingData, proteinClass)
+
 classSubstrings = findSubstrings(classFrame, substringLength)
 saveSubstrings(classSubstrings, proteinClass)
+
 classScore = scoreSubstrings(classFrame, classSubstrings)
 saveScoreFrames(classScore, proteinClass)
+
+mostFrequentSubstrings = getFrequentSubstrings(classScore)
+mostFrequentSubstrings.to_csv('MostFrequentSubstrings' + proteinClass + '.csv')
+printFrequentSubstrings(mostFrequentSubstrings)
 
 # DNAFrame = separateDataframe(trainingData, 'DNA')
 # RNAFrame = separateDataframe(trainingData, 'RNA')
