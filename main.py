@@ -17,12 +17,12 @@ trainingData.to_csv('CMSC435TrainingData.csv')
 # Define the testString used against the dataset
 testStrings = ['A', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
                'K', 'L', 'M', 'N', 'P', 'Q', 'R',
-               'S', 'T', 'U', 'V', 'W', 'Y']
+               'S', 'T', 'V', 'W', 'Y']
 
 # Define the columns used in the new Dataset
 columns = ['Row', 'A', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
            'K', 'L', 'M', 'N', 'P', 'Q', 'R',
-           'S', 'T', 'U', 'V', 'W', 'Y', 'Class']
+           'S', 'T', 'V', 'W', 'Y', 'Class']
 
 newDataset = pd.DataFrame(columns=columns)
 
