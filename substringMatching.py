@@ -5,33 +5,35 @@ def findSubstrings(dataframe, length):
     index = 0
     substringList = pd.DataFrame(columns=['Sequence Index', 'Substring'])
     for x in range(len(dataframe.index) - 1):
-        stringOne = dataframe.iat[x, 0]
-        stringTwo = dataframe.iat[x+1, 0]
-        possSubstring = ''
-        i = 0
-        j = 0
-        oneMax = len(stringOne)
-        twoMax = len(stringTwo)
-        while i < oneMax:
-            if j == twoMax:
-                j = 0
-                i = i + 1
-            elif stringOne[i] == stringTwo[j]:
-                possSubstring = possSubstring + stringOne[i]
-                i = i + 1
-                j = j + 1
-            elif stringOne[i] != stringTwo[j]:
-                if len(possSubstring) >= length:
-                    if possSubstring not in substringList:
-                        data = pd.DataFrame({'Sequence Index': x, 'Substring': possSubstring}, index=[index])
-                        substringList = substringList.append(data)
-                        index = index + 1
-                    possSubstring = ''
-                    i = i + 1
+        for y in range(x, len(dataframe.index) - 1):
+            stringOne = dataframe.iat[x, 0]
+            stringTwo = dataframe.iat[y, 0]
+            possSubstring = ''
+            i = 0
+            j = 0
+            oneMax = len(stringOne)
+            twoMax = len(stringTwo)
+            while i < oneMax:
+                if j == twoMax:
                     j = 0
-                elif len(possSubstring) < length:
+                    i = i + 1
+                elif stringOne[i] == stringTwo[j]:
+                    possSubstring = possSubstring + stringOne[i]
+                    i = i + 1
                     j = j + 1
-        if len(possSubstring) > 0 and possSubstring not in substringList:
+                elif stringOne[i] != stringTwo[j]:
+                    if len(possSubstring) >= length:
+                        if not substringInList(substringList, possSubstring):
+                            data = pd.DataFrame({'Sequence Index': x, 'Substring': possSubstring}, index=[index])
+                            substringList = substringList.append(data)
+                            index = index + 1
+                        possSubstring = ''
+                        i = i + 1
+                        j = 0
+                    elif len(possSubstring) < length:
+                        j = j + 1
+                        possSubstring = ''
+        if len(possSubstring) >= length and not substringInList(substringList, possSubstring):
             data = pd.DataFrame({'Sequence Index': x, 'Substring': possSubstring}, index=[index])
             substringList = substringList.append(data)
             index = index + 1
@@ -62,9 +64,10 @@ def scoreSubstrings(dataframe, substrings):
                     if j == jMax:
                         score = score + 1
                         j = 0
-            data = pd.DataFrame({'Sequence': sequence, 'Substring': string, 'Count': score}, index=[index])
-            scoreList = scoreList.append(data)
-            index = index + 1
+            if not substringInList(scoreList, string):
+                data = pd.DataFrame({'Sequence': sequence, 'Substring': string, 'Count': score}, index=[index])
+                scoreList = scoreList.append(data)
+                index = index + 1
     return scoreList
 
 
@@ -93,8 +96,9 @@ def getFrequentSubstrings(scoreFrame):
     for count in range(0, frequentSubstringLength):
         sub = scoreFrame.iat[count, 1]
         num = scoreFrame.iat[count, 2]
-        data = pd.DataFrame({'Substring': sub, 'Count': num}, index=[count])
-        frequentDF = frequentDF.append(data)
+        if not substringInList(frequentDF, sub):
+            data = pd.DataFrame({'Substring': sub, 'Count': num}, index=[count])
+            frequentDF = frequentDF.append(data)
     return frequentDF
 
 
@@ -105,12 +109,20 @@ def printFrequentSubstrings(frame):
         print('Substring ' + sub + ' appeared in class ' + proteinClass + ' ' + str(num) + ' times')
 
 
+def substringInList(dataframe, string):
+    for row in dataframe.iterrows():
+        compString = row[1]['Substring']
+        if string == compString:
+            return True
+    return False
+
+
 trainingData = pd.read_csv('CMSC435TrainingDataset.txt',
                            sep=',', header=None, names=['Sequence', 'Class'])
 
-proteinClass = 'DRNA'
-substringLength = 3
-frequentSubstringLength = 5
+proteinClass = 'DNA'
+substringLength = 5
+frequentSubstringLength = 10
 
 classFrame = separateDataframe(trainingData, proteinClass)
 
@@ -121,34 +133,5 @@ classScore = scoreSubstrings(classFrame, classSubstrings)
 saveScoreFrames(classScore, proteinClass)
 
 mostFrequentSubstrings = getFrequentSubstrings(classScore)
-mostFrequentSubstrings.to_csv('MostFrequentSubstrings' + proteinClass + '.csv')
+mostFrequentSubstrings.to_csv('MostFrequentSubstrings' + proteinClass + str(frequentSubstringLength) + '.csv')
 printFrequentSubstrings(mostFrequentSubstrings)
-
-# DNAFrame = separateDataframe(trainingData, 'DNA')
-# RNAFrame = separateDataframe(trainingData, 'RNA')
-# DRNAFrame = separateDataframe(trainingData, 'DRNA')
-# NonDRNAFrame = separateDataframe(trainingData, 'nonDRNA')
-
-# DNASubstrings = findSubstrings(DNAFrame)
-# saveSubstrings(DNASubstrings, 'DNA')
-
-# RNASubstrings = findSubstrings(RNAFrame)
-# saveSubstrings(RNASubstrings, 'RNA')
-
-# DRNASubstrings = findSubstrings(DRNAFrame)
-# saveSubstrings(DRNASubstrings, 'DRNA')
-
-# NonDRNASubstrings = findSubstrings(NonDRNAFrame)
-# saveSubstrings(NonDRNASubstrings, 'NonDRNA')
-
-# DNAScore = scoreSubstrings(DNAFrame, DNASubstrings)
-# saveScoreFrames(DNAFrame, 'DNA')
-
-# RNAScore = scoreSubstrings(RNAFrame, RNASubstrings)
-# saveScoreFrames(RNAFrame, 'RNA')
-
-# DRNAScore = scoreSubstrings(DRNAFrame, DRNASubstrings)
-# saveScoreFrames(DRNAScore, 'DRNA')
-
-# NonDRNAScore = scoreSubstrings(NonDRNAFrame, NonDRNASubstrings)
-# saveScoreFrames(NonDRNAFrame, 'NonDRNA')
