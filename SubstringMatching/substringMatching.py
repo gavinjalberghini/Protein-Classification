@@ -33,16 +33,17 @@ def findSubstrings(dataframe, length):
                     elif len(possSubstring) < length:
                         j = j + 1
                         possSubstring = ''
-        if len(possSubstring) >= length and not substringInList(substringList, possSubstring):
-            data = pd.DataFrame({'Sequence Index': x, 'Substring': possSubstring}, index=[index])
-            substringList = substringList.append(data)
-            index = index + 1
+            if len(possSubstring) >= length and not substringInList(substringList, possSubstring):
+                data = pd.DataFrame({'Sequence Index': x, 'Substring': possSubstring}, index=[index])
+                substringList = substringList.append(data)
+                index = index + 1
     return substringList
 
 
 def scoreSubstrings(dataframe, substrings):
     scoreList = pd.DataFrame(columns=['Sequence', 'Substring', 'Count'])
     index = 0
+    scoreThreshold = len(dataframe.index) / scoreLength
     for row in dataframe.iterrows():
         sequence = row[1]['Sequence']
         for y in range(len(substrings.index) - 1):
@@ -64,7 +65,7 @@ def scoreSubstrings(dataframe, substrings):
                     if j == jMax:
                         score = score + 1
                         j = 0
-            if not substringInList(scoreList, string):
+            if not substringInList(scoreList, string) and score >= scoreThreshold:
                 data = pd.DataFrame({'Sequence': sequence, 'Substring': string, 'Count': score}, index=[index])
                 scoreList = scoreList.append(data)
                 index = index + 1
@@ -72,11 +73,11 @@ def scoreSubstrings(dataframe, substrings):
 
 
 def saveScoreFrames(dataframe, proteinType):
-    dataframe.to_csv('ProteinScore' + proteinType + str(substringLength) + '.csv')
+    dataframe.to_csv('Data/ProteinScore' + proteinType + str(substringLength) + '.csv')
 
 
 def saveSubstrings(substrings, proteinType):
-    substrings.to_csv('ProteinSubstring' + proteinType + str(substringLength) + '.csv')
+    substrings.to_csv('Data/ProteinSubstring' + proteinType + str(substringLength) + '.csv')
 
 
 def separateDataframe(dataframe, identifier):
@@ -121,8 +122,9 @@ trainingData = pd.read_csv('CMSC435TrainingDataset.txt',
                            sep=',', header=None, names=['Sequence', 'Class'])
 
 proteinClass = 'DNA'
-substringLength = 5
+substringLength = 10
 frequentSubstringLength = 10
+scoreLength = 10
 
 classFrame = separateDataframe(trainingData, proteinClass)
 
@@ -133,5 +135,5 @@ classScore = scoreSubstrings(classFrame, classSubstrings)
 saveScoreFrames(classScore, proteinClass)
 
 mostFrequentSubstrings = getFrequentSubstrings(classScore)
-mostFrequentSubstrings.to_csv('MostFrequentSubstrings' + proteinClass + str(frequentSubstringLength) + '.csv')
+mostFrequentSubstrings.to_csv('Data/MostFrequentSubstrings' + proteinClass + str(frequentSubstringLength) + '.csv')
 printFrequentSubstrings(mostFrequentSubstrings)
