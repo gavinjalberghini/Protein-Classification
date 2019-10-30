@@ -19,12 +19,11 @@
 
 Recommended Tree Generation Settings - 
 
-Minimal Gain - between 0.22 and 0.35
 Prepruning - True
 Criterion - Accuracy
 Pruning - True
 Maximal Depth - between 4 and 6
 Confidence - between 0.45 and 0.55
-Minimal Gain - between 0.35 and 0.4
-Minimal Leaf Size - no impact; between 1 and 10
+Minimal Gain - between 0.035 and 0.04
+Minimal Leaf Size - little impact; between 1 and 10
 
