@@ -19,7 +19,7 @@ def csv_export(origin, df):
 chars = 'ACDEFGHIKLMNPQRSTVWY'
 combos = []
 #replace '2' here for more grams
-for x in list(iter.combinations_with_replacement(chars, 2)):
+for x in list(iter.combinations_with_replacement(chars, 5)):
     combos.append(''.join(x))
 
 dna = pd.read_csv("data/435DNAOnly.csv", header=None).iloc[:,0].to_numpy()
@@ -32,27 +32,27 @@ dfrna = pd.DataFrame(0, index=range(len(rna)), columns=combos).to_numpy()
 dfdrna = pd.DataFrame(0, index=range(len(drna)), columns=combos).to_numpy()
 dfndrna = pd.DataFrame(0, index=range(len(ndrna)), columns=combos).to_numpy()
 
-print("csv export dna {0}".format(time.time()))
-csv_export(dna, dfdna)
-dfdna = pd.DataFrame(data=dfdna, columns=combos)
-dfdna.to_csv("2-grams_dna.csv")
-print("finished csv export {0}".format(time.time()))
-
-print("csv export rna {0}".format(time.time()))
-csv_export(rna, dfrna)
-dfrna = pd.DataFrame(data=dfrna, columns=combos)
-dfrna.to_csv("2-grams_rna.csv")
-print("finished csv export {0}".format(time.time()))
-
-print("csv export drna {0}".format(time.time()))
-csv_export(drna, dfdrna)
-dfdrna = pd.DataFrame(data=dfdrna, columns=combos)
-dfdrna.to_csv("2-grams_drna.csv")
-print("finished csv export {0}".format(time.time()))
+# print("csv export dna {0}".format(time.time()))
+# csv_export(dna, dfdna)
+# dfdna = pd.DataFrame(data=dfdna, columns=combos)
+# dfdna.to_csv("2-grams_dna.csv")
+# print("finished csv export {0}".format(time.time()))
+#
+# print("csv export rna {0}".format(time.time()))
+# csv_export(rna, dfrna)
+# dfrna = pd.DataFrame(data=dfrna, columns=combos)
+# dfrna.to_csv("2-grams_rna.csv")
+# print("finished csv export {0}".format(time.time()))
+#
+# print("csv export drna {0}".format(time.time()))
+# csv_export(drna, dfdrna)
+# dfdrna = pd.DataFrame(data=dfdrna, columns=combos)
+# dfdrna.to_csv("2-grams_drna.csv")
+# print("finished csv export {0}".format(time.time()))
 
 print("csv export ndrna {0}".format(time.time()))
 csv_export(ndrna, dfndrna)
 dfndrna = pd.DataFrame(data=dfndrna, columns=combos)
-dfndrna.to_csv("2-grams_ndrna.csv")
+dfndrna.to_csv("5-grams_ndrna.csv")
 print("finished csv export {0}".format(time.time()))
 
