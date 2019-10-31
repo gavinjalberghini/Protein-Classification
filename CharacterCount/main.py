@@ -10,7 +10,7 @@ def countString(comp, sequence):
 
 
 # Read the dataset
-trainingData = pd.read_csv('CMSC435TrainingDataset.txt',
+trainingData = pd.read_csv('../CMSC435TrainingDataset.txt',
                            sep=',', header=None, names=['Sequence', 'Class'])
 # Save the
 trainingData.to_csv('CMSC435TrainingData.csv')
@@ -49,3 +49,5 @@ for x in range(0, numRows):
             highestVal = newDataset.iat[x, y]
             highestCol = newDataset.columns[y]
     print("The greatest value for row " + str(x) + " is " + str(highestVal) + " at column " + highestCol)
+
+metric.generate_metrics()
