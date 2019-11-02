@@ -14,7 +14,7 @@ num_labels = 4
 
 # Build the full confusion matrix from the prediction vs actual results
 def generate_confusion(prediction, actual):
-    confusion = [[0] * num_labels for i in num_labels]
+    confusion = [[0] * num_labels for i in range(0, num_labels)]
 
     for counter in range(0, len(actual)):
         x_index = int(prediction[counter], 2)
@@ -77,7 +77,8 @@ def generate_metrics(prediction, actual):
     neither_stats = generate_statistics(neither_confusion)
 
     avg_mcc = (dna_stats[3] + rna_stats[3] + both_stats[3] + neither_stats[3]) / 4
-    acc = 100 * (dna_confusion[0] + rna_confusion[0] + both_confusion[0] + neither_stats[0]) / len(prediction_sets[0])
+    acc = 100 * (dna_confusion[0] + rna_confusion[0] + both_confusion[0] + neither_stats[0]) / len(actual)
+
 
     metrics = [dna_stats, rna_stats, both_stats, neither_stats, avg_mcc, acc]
 
