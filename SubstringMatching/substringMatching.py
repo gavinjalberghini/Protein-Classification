@@ -1,6 +1,14 @@
 import pandas as pd
 
 
+# Arguments:
+# Dataframe - a pandas dataframe generated from an CSV file
+# length - the minimum length the substring must match or exceed to be added to the collection
+#
+# Returns a pandas dataframe with all substrings that appeared
+# This function will go through every sequence in the dataframe and check each character in that sequence against
+# the characters of all other sequences
+# O(n^2) complexity, this will run poorly against large dataframes when the length is low
 def findSubstrings(dataframe, length):
     index = 0
     substringList = pd.DataFrame(columns=['Sequence Index', 'Substring'])
@@ -40,6 +48,8 @@ def findSubstrings(dataframe, length):
     return substringList
 
 
+# Goes through the collection of the substrings found, and sees how many times that substring has appeared in the
+# Original dataframe, returns a dataframe with the row, substring, and the count
 def scoreSubstrings(dataframe, substrings):
     scoreList = pd.DataFrame(columns=['Sequence', 'Substring', 'Count'])
     index = 0
@@ -72,14 +82,17 @@ def scoreSubstrings(dataframe, substrings):
     return scoreList
 
 
+# Saves the score file to CSV
 def saveScoreFrames(dataframe, proteinType):
     dataframe.to_csv('Data/ProteinScore' + proteinType + str(substringLength) + '.csv')
 
 
+# Saves the substring file to CSV
 def saveSubstrings(substrings, proteinType):
     substrings.to_csv('Data/ProteinSubstring' + proteinType + str(substringLength) + '.csv')
 
 
+# This will take the initial dataframe, and only return the rows that have the correct class
 def separateDataframe(dataframe, identifier):
     newFrame = pd.DataFrame(columns=['Sequence'])
     count = 0
@@ -91,6 +104,7 @@ def separateDataframe(dataframe, identifier):
     return newFrame
 
 
+# Returns a dataframe that has the top % of substrings based on their count
 def getFrequentSubstrings(scoreFrame):
     scoreFrame = scoreFrame.sort_values(by='Count', ascending=False)
     frequentDF = pd.DataFrame(columns=['Substring', 'Count'])
@@ -103,6 +117,7 @@ def getFrequentSubstrings(scoreFrame):
     return frequentDF
 
 
+# Prints out the frequent substrings
 def printFrequentSubstrings(frame):
     for row in frame.iterrows():
         sub = row[1]['Substring']
@@ -110,6 +125,7 @@ def printFrequentSubstrings(frame):
         print('Substring ' + sub + ' appeared in class ' + proteinClass + ' ' + str(num) + ' times')
 
 
+# Checks to see if the substring already exists in a dataframe
 def substringInList(dataframe, string):
     for row in dataframe.iterrows():
         compString = row[1]['Substring']
@@ -121,6 +137,12 @@ def substringInList(dataframe, string):
 trainingData = pd.read_csv('CMSC435TrainingDataset.txt',
                            sep=',', header=None, names=['Sequence', 'Class'])
 
+# This block will be the configurable portion for the user
+# proteinClass will be of the choices "DNA, RNA, DRNA, or nonDRNA"
+# substringLength will be the minimum length of a potential substring to be added to the dataframe
+# frequentSubstringLength is the number of frequent substrings you are looking to be outputted
+# scoreLength will be the number that divides the length of the imported dataframe by the chosen class
+# so if the dataframe rows is 2000, it'll only add substrings that have a count of 200/ scoreLength
 proteinClass = 'DNA'
 substringLength = 10
 frequentSubstringLength = 10
