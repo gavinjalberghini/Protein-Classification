@@ -31,7 +31,6 @@ def generate_confusion(prediction, actual):
 # - Total FP's for a class is the sum of the column minus TP
 # - Total TN's for a class is the sum of the table minus the class column and row
 def breakdown_confusion(confusion):
-
     reduced_confusion_results = []
     row_sums = list(map(sum, confusion))
     col_sums = [sum(col) for col in zip(*confusion)]
@@ -77,10 +76,8 @@ def generate_metrics(prediction, actual):
     neither_stats = generate_statistics(neither_confusion)
 
     avg_mcc = (dna_stats[3] + rna_stats[3] + both_stats[3] + neither_stats[3]) / 4
-    acc = 100 * (dna_confusion[0] + rna_confusion[0] + both_confusion[0] + neither_stats[0]) / len(actual)
-
+    acc = 100 * (confusion[0][0] + confusion[1][1] + confusion[2][2] + confusion[3][3]) / sum(sum(confusion, []))
 
     metrics = [dna_stats, rna_stats, both_stats, neither_stats, avg_mcc, acc]
 
     return metrics
-

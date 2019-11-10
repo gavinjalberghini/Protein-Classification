@@ -49,5 +49,3 @@ for x in range(0, numRows):
             highestVal = newDataset.iat[x, y]
             highestCol = newDataset.columns[y]
     print("The greatest value for row " + str(x) + " is " + str(highestVal) + " at column " + highestCol)
-
-metric.generate_metrics()
