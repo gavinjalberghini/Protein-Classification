@@ -1,0 +1,17 @@
+ParameterSet
+Parameter set:
+
+Performance: 
+PerformanceVector [
+-----accuracy: 89.97% +/- 0.40% (micro average: 89.97%)
+ConfusionMatrix:
+True:	DNA	RNA	DRNA	nonDRNA
+DNA:	14	10	0	9
+RNA:	13	83	0	34
+DRNA:	0	0	0	0
+nonDRNA:	364	430	22	7816
+]
+Decision Tree.criterion	= accuracy
+Decision Tree.minimal_gain	= 0.0
+Decision Tree.maximal_depth	= 19
+Decision Tree.minimal_leaf_size	= 1
