@@ -15,7 +15,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import SMOTE
 
-CONST_CLASS_LABEL = "[Class]"
+CONST_CLASS_LABEL = "Class"
 #Default method called by
 def rm_main(data):
     column_vals = data.columns

@@ -15,7 +15,7 @@ import numpy as np
 from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import SMOTE
 
-CONST_CLASS_LABEL = "[Class]"
+CONST_CLASS_LABEL = "Class"
 #Default method called by
 def rm_main(data):
     column_vals = data.columns
@@ -23,6 +23,4 @@ def rm_main(data):
     y = np.array(data.loc[:, data.columns == CONST_CLASS_LABEL]) # The class into an np array
     full_training_set = np.column_stack((X,y))
     df = pd.DataFrame(data=full_training_set, columns = column_vals)
-    df["[Class]"].replace(['DNA', 'DRNA', 'nonDRNA'], ["No", "No", "No"], inplace=True)
-    df["[Class]"].replace(['RNA'], ["Yes"], inplace=True)
     return df
