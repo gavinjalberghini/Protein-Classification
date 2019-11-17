@@ -1,7 +1,7 @@
 import metrics as m
 import pandas as pd
 
-metricData = pd.read_csv('CMSC435ProjectMetrics.csv', sep=';', header=None)
+metricData = pd.read_csv("/Users/michaelpoblacion/Documents/VCU/Fall19/CMSC435/Protein-Classification/PreProcessing/PFeature/PFeature_CharCombined_RandomForest.csv", sep=';', header=None)
 header = metricData.iloc[0]
 metricData = metricData[1:]
 metricData.columns = header

@@ -25,7 +25,7 @@ def extract_true_pos_tocsv(true_pos_class):
         if(label != true_pos_class):
             new_df[CONST_CLASS_LABEL].replace([label], ["No"], inplace=True)
     new_df[CONST_CLASS_LABEL].replace([true_pos_class], ["Yes"], inplace=True)
-    new_df.to_csv(csv_file_name)
+    new_df.to_csv(csv_file_name, index=False)
 
 for column_val in columm_label_list:
     extract_true_pos_tocsv(column_val)

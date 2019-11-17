@@ -10,7 +10,7 @@ def countString(comp, sequence):
 
 
 # Read the dataset
-trainingData = pd.read_csv('../CMSC435TrainingDataset.txt',
+trainingData = pd.read_csv('/Users/michaelpoblacion/Documents/VCU/Fall19/CMSC435/Protein-Classification/Data/CMSC435TrainingDataset.txt',
                            sep=',', header=None, names=['Sequence', 'Class'])
 # Save the
 trainingData.to_csv('CMSC435TrainingData.csv')
