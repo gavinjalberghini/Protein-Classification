@@ -35,21 +35,21 @@
         <parameter key="encoding" value="UTF-8"/>
         <parameter key="read_all_values_as_polynominal" value="false"/>
         <list key="data_set_meta_data_information">
-          <parameter key="0" value="A.false.integer.attribute"/>
-          <parameter key="1" value="C.false.integer.attribute"/>
+          <parameter key="0" value="A.true.integer.attribute"/>
+          <parameter key="1" value="C.true.integer.attribute"/>
           <parameter key="2" value="D.true.integer.attribute"/>
           <parameter key="3" value="E.true.integer.attribute"/>
           <parameter key="4" value="F.true.integer.attribute"/>
           <parameter key="5" value="G.true.integer.attribute"/>
           <parameter key="6" value="H.true.integer.attribute"/>
           <parameter key="7" value="I.true.integer.attribute"/>
-          <parameter key="8" value="K.true.integer.attribute"/>
+          <parameter key="8" value="K.false.integer.attribute"/>
           <parameter key="9" value="L.true.integer.attribute"/>
-          <parameter key="10" value="M.false.integer.attribute"/>
+          <parameter key="10" value="M.true.integer.attribute"/>
           <parameter key="11" value="N.true.integer.attribute"/>
           <parameter key="12" value="P.true.integer.attribute"/>
           <parameter key="13" value="Q.true.integer.attribute"/>
-          <parameter key="14" value="R.true.integer.attribute"/>
+          <parameter key="14" value="R.false.integer.attribute"/>
           <parameter key="15" value="S.true.integer.attribute"/>
           <parameter key="16" value="T.true.integer.attribute"/>
           <parameter key="17" value="V.true.integer.attribute"/>
@@ -60,22 +60,22 @@
           <parameter key="22" value="Neutral charged.true.real.attribute"/>
           <parameter key="23" value="Polarity.true.real.attribute"/>
           <parameter key="24" value="Non polarity.true.real.attribute"/>
-          <parameter key="25" value="Aliphaticity.true.real.attribute"/>
+          <parameter key="25" value="Aliphaticity.false.real.attribute"/>
           <parameter key="26" value="Cyclic.true.real.attribute"/>
-          <parameter key="27" value="Aromaticity.false.real.attribute"/>
+          <parameter key="27" value="Aromaticity.true.real.attribute"/>
           <parameter key="28" value="Acidicity.true.real.attribute"/>
           <parameter key="29" value="Basicity.true.real.attribute"/>
           <parameter key="30" value="Hydrophobicity.true.real.attribute"/>
           <parameter key="31" value="Hydrophilicity.true.real.attribute"/>
-          <parameter key="32" value="Neutral.false.real.attribute"/>
+          <parameter key="32" value="Neutral.true.real.attribute"/>
           <parameter key="33" value="Hydroxylic.true.real.attribute"/>
           <parameter key="34" value="Tiny.true.real.attribute"/>
           <parameter key="35" value="Small.true.real.attribute"/>
           <parameter key="36" value="z1.true.real.attribute"/>
-          <parameter key="37" value="z2.false.real.attribute"/>
+          <parameter key="37" value="z2.true.real.attribute"/>
           <parameter key="38" value="z3.true.real.attribute"/>
           <parameter key="39" value="z4.true.real.attribute"/>
-          <parameter key="40" value="z5.true.real.attribute"/>
+          <parameter key="40" value="z5.false.real.attribute"/>
           <parameter key="41" value="Class.true.polynominal.attribute"/>
         </list>
         <parameter key="read_not_matching_values_as_missings" value="false"/>
@@ -116,8 +116,44 @@
         <parameter key="local_random_seed" value="1992"/>
         <parameter key="enable_parallel_execution" value="true"/>
         <process expanded="true">
-          <operator activated="true" class="concurrency:parallel_random_forest" compatibility="9.4.001" expanded="true" height="103" name="Random Forest" width="90" x="112" y="34">
-            <parameter key="number_of_trees" value="35"/>
+          <operator activated="false" class="operator_toolbox:smote" compatibility="2.2.000" expanded="true" height="82" name="SMOTE Upsampling DRNA" width="90" x="45" y="136">
+            <parameter key="number_of_neighbours" value="5"/>
+            <parameter key="normalize" value="false"/>
+            <parameter key="equalize_classes" value="false"/>
+            <parameter key="upsampling_size" value="21"/>
+            <parameter key="auto_detect_minority_class" value="false"/>
+            <parameter key="minority_class" value="DRNA"/>
+            <parameter key="round_integers" value="false"/>
+            <parameter key="nominal_change_rate" value="0.5"/>
+            <parameter key="use_local_random_seed" value="false"/>
+            <parameter key="local_random_seed" value="1992"/>
+          </operator>
+          <operator activated="false" class="operator_toolbox:smote" compatibility="2.2.000" expanded="true" height="82" name="SMOTE Upsampling DNA" width="90" x="45" y="238">
+            <parameter key="number_of_neighbours" value="5"/>
+            <parameter key="normalize" value="false"/>
+            <parameter key="equalize_classes" value="false"/>
+            <parameter key="upsampling_size" value="67"/>
+            <parameter key="auto_detect_minority_class" value="false"/>
+            <parameter key="minority_class" value="DNA"/>
+            <parameter key="round_integers" value="false"/>
+            <parameter key="nominal_change_rate" value="0.5"/>
+            <parameter key="use_local_random_seed" value="false"/>
+            <parameter key="local_random_seed" value="1992"/>
+          </operator>
+          <operator activated="false" class="operator_toolbox:smote" compatibility="2.2.000" expanded="true" height="82" name="SMOTE Upsampling RNA" width="90" x="45" y="340">
+            <parameter key="number_of_neighbours" value="5"/>
+            <parameter key="normalize" value="false"/>
+            <parameter key="equalize_classes" value="false"/>
+            <parameter key="upsampling_size" value="379"/>
+            <parameter key="auto_detect_minority_class" value="false"/>
+            <parameter key="minority_class" value="RNA"/>
+            <parameter key="round_integers" value="false"/>
+            <parameter key="nominal_change_rate" value="0.5"/>
+            <parameter key="use_local_random_seed" value="false"/>
+            <parameter key="local_random_seed" value="1992"/>
+          </operator>
+          <operator activated="true" class="concurrency:parallel_random_forest" compatibility="9.4.001" expanded="true" height="103" name="Random Forest" width="90" x="179" y="34">
+            <parameter key="number_of_trees" value="40"/>
             <parameter key="criterion" value="gini_index"/>
             <parameter key="maximal_depth" value="30"/>
             <parameter key="apply_pruning" value="true"/>
@@ -136,6 +172,8 @@
             <parameter key="enable_parallel_execution" value="true"/>
           </operator>
           <connect from_port="training set" to_op="Random Forest" to_port="training set"/>
+          <connect from_op="SMOTE Upsampling DRNA" from_port="ups" to_op="SMOTE Upsampling DNA" to_port="exa"/>
+          <connect from_op="SMOTE Upsampling DNA" from_port="ups" to_op="SMOTE Upsampling RNA" to_port="exa"/>
           <connect from_op="Random Forest" from_port="model" to_port="model"/>
           <portSpacing port="source_training set" spacing="0"/>
           <portSpacing port="sink_model" spacing="0"/>
@@ -187,7 +225,7 @@
         </process>
       </operator>
       <operator activated="true" class="write_csv" compatibility="9.4.001" expanded="true" height="82" name="Write CSV" width="90" x="514" y="136">
-        <parameter key="csv_file" value="/Users/michaelpoblacion/Documents/VCU/Fall19/CMSC435/Protein-Classification/PreProcessing/PFeature/PFeature_CharCombined_RandomForest.csv"/>
+        <parameter key="csv_file" value="/Users/michaelpoblacion/Documents/VCU/Fall19/CMSC435/Protein-Classification/PreProcessing/PFeature/PFeature_CharCombined_SMOTE_RandomForest.csv"/>
         <parameter key="column_separator" value=";"/>
         <parameter key="write_attribute_names" value="true"/>
         <parameter key="quote_nominal_values" value="true"/>
@@ -198,10 +236,10 @@
       <connect from_op="Read CSV" from_port="output" to_op="Normalize" to_port="example set input"/>
       <connect from_op="Normalize" from_port="example set output" to_op="Set Role" to_port="example set input"/>
       <connect from_op="Set Role" from_port="example set output" to_op="Cross Validation" to_port="example set"/>
-      <connect from_op="Cross Validation" from_port="model" to_port="result 2"/>
-      <connect from_op="Cross Validation" from_port="example set" to_port="result 3"/>
+      <connect from_op="Cross Validation" from_port="model" to_port="result 1"/>
+      <connect from_op="Cross Validation" from_port="example set" to_port="result 2"/>
       <connect from_op="Cross Validation" from_port="test result set" to_op="Write CSV" to_port="input"/>
-      <connect from_op="Cross Validation" from_port="performance 1" to_port="result 1"/>
+      <connect from_op="Cross Validation" from_port="performance 1" to_port="result 3"/>
       <portSpacing port="source_input 1" spacing="0"/>
       <portSpacing port="sink_result 1" spacing="0"/>
       <portSpacing port="sink_result 2" spacing="0"/>
