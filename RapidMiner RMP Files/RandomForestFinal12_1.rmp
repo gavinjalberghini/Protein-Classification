@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?><process version="9.4.001">
+  <context>
+    <input/>
+    <output/>
+    <macros/>
+  </context>
+  <operator activated="true" class="process" compatibility="9.4.001" expanded="true" name="Process">
+    <parameter key="logverbosity" value="init"/>
+    <parameter key="random_seed" value="2001"/>
+    <parameter key="send_mail" value="never"/>
+    <parameter key="notification_email" value=""/>
+    <parameter key="process_duration_for_mail" value="30"/>
+    <parameter key="encoding" value="SYSTEM"/>
+    <process expanded="true">
+      <operator activated="true" class="read_csv" compatibility="9.4.001" expanded="true" height="68" name="Read CSV" width="90" x="45" y="34">
+        <parameter key="csv_file" value="/Users/michaelpoblacion/Documents/VCU/Fall19/CMSC435/Protein-Classification/PreProcessing/CharacterCount/ProjectTest.csv"/>
+        <parameter key="column_separators" value=","/>
+        <parameter key="trim_lines" value="false"/>
+        <parameter key="use_quotes" value="true"/>
+        <parameter key="quotes_character" value="&quot;"/>
+        <parameter key="escape_character" value="\"/>
+        <parameter key="skip_comments" value="true"/>
+        <parameter key="comment_characters" value="#"/>
+        <parameter key="starting_row" value="1"/>
+        <parameter key="parse_numbers" value="true"/>
+        <parameter key="decimal_character" value="."/>
+        <parameter key="grouped_digits" value="false"/>
+        <parameter key="grouping_character" value=","/>
+        <parameter key="infinity_representation" value=""/>
+        <parameter key="date_format" value=""/>
+        <parameter key="first_row_as_names" value="true"/>
+        <list key="annotations"/>
+        <parameter key="time_zone" value="SYSTEM"/>
+        <parameter key="locale" value="English (United States)"/>
+        <parameter key="encoding" value="UTF-8"/>
+        <parameter key="read_all_values_as_polynominal" value="false"/>
+        <list key="data_set_meta_data_information">
+          <parameter key="0" value="A.false.integer.attribute"/>
+          <parameter key="1" value="C.false.integer.attribute"/>
+          <parameter key="2" value="D.true.integer.attribute"/>
+          <parameter key="3" value="E.true.integer.attribute"/>
+          <parameter key="4" value="F.true.integer.attribute"/>
+          <parameter key="5" value="G.true.integer.attribute"/>
+          <parameter key="6" value="H.true.integer.attribute"/>
+          <parameter key="7" value="I.true.integer.attribute"/>
+          <parameter key="8" value="K.true.integer.attribute"/>
+          <parameter key="9" value="L.true.integer.attribute"/>
+          <parameter key="10" value="M.true.integer.attribute"/>
+          <parameter key="11" value="N.true.integer.attribute"/>
+          <parameter key="12" value="P.true.integer.attribute"/>
+          <parameter key="13" value="Q.true.integer.attribute"/>
+          <parameter key="14" value="R.true.integer.attribute"/>
+          <parameter key="15" value="S.true.integer.attribute"/>
+          <parameter key="16" value="T.true.integer.attribute"/>
+          <parameter key="17" value="V.true.integer.attribute"/>
+          <parameter key="18" value="W.true.integer.attribute"/>
+          <parameter key="19" value="Y.true.integer.attribute"/>
+          <parameter key="20" value="Positively charged.true.real.attribute"/>
+          <parameter key="21" value="Negatively charged.true.real.attribute"/>
+          <parameter key="22" value="Neutral charged.false.real.attribute"/>
+          <parameter key="23" value="Polarity.true.real.attribute"/>
+          <parameter key="24" value="Non polarity.true.real.attribute"/>
+          <parameter key="25" value="Aliphaticity.true.real.attribute"/>
+          <parameter key="26" value="Cyclic.true.real.attribute"/>
+          <parameter key="27" value="Aromaticity.false.real.attribute"/>
+          <parameter key="28" value="Acidicity.true.real.attribute"/>
+          <parameter key="29" value="Basicity.true.real.attribute"/>
+          <parameter key="30" value="Hydrophobicity.true.real.attribute"/>
+          <parameter key="31" value="Hydrophilicity.true.real.attribute"/>
+          <parameter key="32" value="Neutral.true.real.attribute"/>
+          <parameter key="33" value="Hydroxylic.true.real.attribute"/>
+          <parameter key="34" value="Tiny.true.real.attribute"/>
+          <parameter key="35" value="Small.true.real.attribute"/>
+          <parameter key="36" value="z1.true.real.attribute"/>
+          <parameter key="37" value="z2.false.real.attribute"/>
+          <parameter key="38" value="z3.true.real.attribute"/>
+          <parameter key="39" value="z4.true.real.attribute"/>
+          <parameter key="40" value="z5.true.real.attribute"/>
+          <parameter key="41" value="Class.true.polynominal.attribute"/>
+        </list>
+        <parameter key="read_not_matching_values_as_missings" value="false"/>
+        <parameter key="datamanagement" value="double_array"/>
+        <parameter key="data_management" value="auto"/>
+      </operator>
+      <operator activated="true" class="set_role" compatibility="9.4.001" expanded="true" height="82" name="Set Role" width="90" x="179" y="34">
+        <parameter key="attribute_name" value="Class"/>
+        <parameter key="target_role" value="label"/>
+        <list key="set_additional_roles"/>
+      </operator>
+      <operator activated="true" class="concurrency:cross_validation" compatibility="9.4.001" expanded="true" height="145" name="Cross Validation" width="90" x="313" y="34">
+        <parameter key="split_on_batch_attribute" value="false"/>
+        <parameter key="leave_one_out" value="false"/>
+        <parameter key="number_of_folds" value="5"/>
+        <parameter key="sampling_type" value="automatic"/>
+        <parameter key="use_local_random_seed" value="false"/>
+        <parameter key="local_random_seed" value="1992"/>
+        <parameter key="enable_parallel_execution" value="true"/>
+        <process expanded="true">
+          <operator activated="true" class="concurrency:parallel_random_forest" compatibility="9.4.001" expanded="true" height="103" name="Random Forest" width="90" x="179" y="34">
+            <parameter key="number_of_trees" value="40"/>
+            <parameter key="criterion" value="information_gain"/>
+            <parameter key="maximal_depth" value="30"/>
+            <parameter key="apply_pruning" value="false"/>
+            <parameter key="confidence" value="0.1"/>
+            <parameter key="apply_prepruning" value="false"/>
+            <parameter key="minimal_gain" value="0.0"/>
+            <parameter key="minimal_leaf_size" value="1"/>
+            <parameter key="minimal_size_for_split" value="4"/>
+            <parameter key="number_of_prepruning_alternatives" value="3"/>
+            <parameter key="random_splits" value="false"/>
+            <parameter key="guess_subset_ratio" value="true"/>
+            <parameter key="subset_ratio" value="0.2"/>
+            <parameter key="voting_strategy" value="confidence vote"/>
+            <parameter key="use_local_random_seed" value="false"/>
+            <parameter key="local_random_seed" value="1992"/>
+            <parameter key="enable_parallel_execution" value="true"/>
+          </operator>
+          <connect from_port="training set" to_op="Random Forest" to_port="training set"/>
+          <connect from_op="Random Forest" from_port="model" to_port="model"/>
+          <portSpacing port="source_training set" spacing="0"/>
+          <portSpacing port="sink_model" spacing="0"/>
+          <portSpacing port="sink_through 1" spacing="0"/>
+        </process>
+        <process expanded="true">
+          <operator activated="true" class="apply_model" compatibility="9.4.001" expanded="true" height="82" name="Apply Model" width="90" x="45" y="34">
+            <list key="application_parameters"/>
+            <parameter key="create_view" value="false"/>
+          </operator>
+          <operator activated="true" class="performance_classification" compatibility="9.4.001" expanded="true" height="82" name="Performance" width="90" x="176" y="34">
+            <parameter key="main_criterion" value="first"/>
+            <parameter key="accuracy" value="true"/>
+            <parameter key="classification_error" value="false"/>
+            <parameter key="kappa" value="false"/>
+            <parameter key="weighted_mean_recall" value="false"/>
+            <parameter key="weighted_mean_precision" value="false"/>
+            <parameter key="spearman_rho" value="false"/>
+            <parameter key="kendall_tau" value="false"/>
+            <parameter key="absolute_error" value="false"/>
+            <parameter key="relative_error" value="false"/>
+            <parameter key="relative_error_lenient" value="false"/>
+            <parameter key="relative_error_strict" value="false"/>
+            <parameter key="normalized_absolute_error" value="false"/>
+            <parameter key="root_mean_squared_error" value="false"/>
+            <parameter key="root_relative_squared_error" value="false"/>
+            <parameter key="squared_error" value="false"/>
+            <parameter key="correlation" value="false"/>
+            <parameter key="squared_correlation" value="false"/>
+            <parameter key="cross-entropy" value="false"/>
+            <parameter key="margin" value="false"/>
+            <parameter key="soft_margin_loss" value="false"/>
+            <parameter key="logistic_loss" value="false"/>
+            <parameter key="skip_undefined_labels" value="true"/>
+            <parameter key="use_example_weights" value="true"/>
+            <list key="class_weights"/>
+          </operator>
+          <connect from_port="model" to_op="Apply Model" to_port="model"/>
+          <connect from_port="test set" to_op="Apply Model" to_port="unlabelled data"/>
+          <connect from_op="Apply Model" from_port="labelled data" to_op="Performance" to_port="labelled data"/>
+          <connect from_op="Performance" from_port="performance" to_port="performance 1"/>
+          <connect from_op="Performance" from_port="example set" to_port="test set results"/>
+          <portSpacing port="source_model" spacing="0"/>
+          <portSpacing port="source_test set" spacing="0"/>
+          <portSpacing port="source_through 1" spacing="0"/>
+          <portSpacing port="sink_test set results" spacing="0"/>
+          <portSpacing port="sink_performance 1" spacing="0"/>
+          <portSpacing port="sink_performance 2" spacing="0"/>
+        </process>
+      </operator>
+      <operator activated="true" class="write_csv" compatibility="9.4.001" expanded="true" height="82" name="Write CSV" width="90" x="514" y="136">
+        <parameter key="csv_file" value="/Users/michaelpoblacion/Documents/VCU/Fall19/CMSC435/Protein-Classification/PreProcessing/PFeature/PFeature_CharCombined_RandomForest.csv"/>
+        <parameter key="column_separator" value=";"/>
+        <parameter key="write_attribute_names" value="true"/>
+        <parameter key="quote_nominal_values" value="true"/>
+        <parameter key="format_date_attributes" value="true"/>
+        <parameter key="append_to_file" value="false"/>
+        <parameter key="encoding" value="SYSTEM"/>
+      </operator>
+      <connect from_op="Read CSV" from_port="output" to_op="Set Role" to_port="example set input"/>
+      <connect from_op="Set Role" from_port="example set output" to_op="Cross Validation" to_port="example set"/>
+      <connect from_op="Cross Validation" from_port="model" to_port="result 1"/>
+      <connect from_op="Cross Validation" from_port="example set" to_port="result 2"/>
+      <connect from_op="Cross Validation" from_port="test result set" to_op="Write CSV" to_port="input"/>
+      <connect from_op="Cross Validation" from_port="performance 1" to_port="result 3"/>
+      <portSpacing port="source_input 1" spacing="0"/>
+      <portSpacing port="sink_result 1" spacing="0"/>
+      <portSpacing port="sink_result 2" spacing="0"/>
+      <portSpacing port="sink_result 3" spacing="0"/>
+      <portSpacing port="sink_result 4" spacing="0"/>
+    </process>
+  </operator>
+</process>
