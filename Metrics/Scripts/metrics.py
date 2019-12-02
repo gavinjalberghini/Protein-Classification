@@ -39,7 +39,7 @@ def breakdown_confusion(confusion):
         tp = confusion[x][x]
         fp = col_sums[x] - tp
         fn = row_sums[x] - tp
-        tn = sum(col_sums) + sum(row_sums) - col_sums[x] - row_sums[x]
+        tn = sum(col_sums) - col_sums[x] - row_sums[x] + tp
         label_result = [tp, tn, fp, fn]
         reduced_confusion_results.append(label_result)
 
