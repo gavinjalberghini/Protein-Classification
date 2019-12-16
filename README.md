@@ -20,7 +20,11 @@ This repository contains documentation, scripts, and RMP (Rapid Miner Process) f
 
 ## Developers
 _Gavin Alberghini_
+
 _Mike Fitzgerald_
+
 _Mike Poblacion_
+
 _Jacob Unterman_
+
 _Angel De La Rosa_
