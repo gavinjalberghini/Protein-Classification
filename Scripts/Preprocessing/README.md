@@ -3,8 +3,8 @@
 ## Smote/Tomek
     
     Info: 
-        1.smote_tomek_rmp.py can be plugged into RapidMiner
-        2.smote_tomek.py can be run outside of RapidMiner to produce csv
+        1. smote_tomek_rmp.py can be plugged into RapidMiner
+        2. smote_tomek.py can be run outside of RapidMiner to produce csv
         NOTE: You may need to change the constant in the scripts that defines the name of the class label.
 
     How to run smote_tomek_rmp.py in RapidMiner:
