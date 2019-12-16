@@ -10,6 +10,7 @@ This repository contains documentation, scripts, and RMP (Rapid Miner Process) f
 
 ## Navigation
 * __Documentation__: Contains all of the relevant documents for this project. Namely the assignment documentation and a report of our various testing configurations. 
+
 * __Scripts__: 
   * __Preprocessing__:
   * __Postprocessing__:
