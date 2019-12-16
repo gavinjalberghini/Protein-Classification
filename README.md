@@ -10,7 +10,6 @@ This repository contains documentation, scripts, and RMP (Rapid Miner Process) f
 
 ## Navigation
 * __Documentation__: Contains all of the relevant documents for this project. Namely the assignment documentation and a report of our various testing configurations. 
-
 * __Scripts__: Contains all proccesses used to prepare, classify, and make conclusions on data.
   * __Preprocessing__: Contains various methods of infering feature sets from protein sequences.
   * __Postprocessing__: Contains methods for evaluating results provided by classifier. 
